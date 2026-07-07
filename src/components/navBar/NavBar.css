@@ -111,7 +111,7 @@
     }
 }
 
-@media (max-width:7500px) {
+@media (max-width:750px) {
     .navbar-menu {
         display: none;
     }

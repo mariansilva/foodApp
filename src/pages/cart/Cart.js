@@ -5,9 +5,9 @@ import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart,getTotalCartAmount } = useContext(StoreContext);
-  
-  const navigate =useNavigate();
+  const { cartItems, food_list, removeFromCart, getTotalCartAmount } = useContext(StoreContext);
+
+  const navigate = useNavigate();
 
   return (
     <div className='cart'>
@@ -52,22 +52,22 @@ const Cart = () => {
             <hr />
             <div className='cart-total-details'>
               <p>Delivery Fee</p>
-              <p>${getTotalCartAmount()===0?0:2}</p>
+              <p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
             </div>
             <hr />
             <div className='cart-total-details'>
               <b>Total</b>
-              <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+              <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button onClick={()=> navigate('/order')}>PTOCEED TO CHECKOUT</button>
+          <button onClick={() => navigate('/order')}>PTOCEED TO CHECKOUT</button>
         </div>
         <div className='cart-promocode'>
           <div>
             <p>If you have a promo code, Enter it here</p>
             <div className='cart-promocode-input'>
-               <input type="text" placeholder='promocode' />
-               <button>Submit</button>
+              <input type="text" placeholder='promocode' />
+              <button>Submit</button>
             </div>
           </div>
         </div>

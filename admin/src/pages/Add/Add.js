@@ -2,47 +2,75 @@ import React, { useEffect } from 'react'
 import './Add.css'
 import { assets } from '../../assets/assets'
 import { useState } from 'react'
+import axios from 'axios'
+import { useFormik } from 'formik'
+import { foodSchema } from './FoodSchema'
+
+
 const Add = () => {
+  const url = "http://localhost:4000";
 
-  const [image, setImage] = useState(false);
-  const [data, setData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    category: "Salad"
-
-  })
-
-  const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData(data => ({ ...data, [name]: value }))
-  }
-
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      description: "",
+      price: "",
+      category: "Salad",
+      image: null,
+    },
+    validationSchema: foodSchema,
+    onSubmit: async (value, { resetForm }) => {
+      const formData = new FormData();
+      formData.append("name", value.name)
+      formData.append("description", value.description)
+      formData.append("price", Number(value.price))
+      formData.append("category", value.category)
+      formData.append("image", value.image)
+      try {
+        const response = await axios.post(`${url}/api/food/add`, formData);
+        if (response.data.success) {
+          resetForm();
+        } else {
+          console.error(response.data.message)
+        }
+      }
+      catch (error) {
+        console.error("Error adding food item:", error);
+      }
+    },
+  });
 
   return (
     <div className='add'>
-      <form className='flex-col'>
+      <form className='flex-col' onSubmit={formik.handleSubmit} noValidate>
         <div className='add-img-upload flex-col'>
           <p>Upload Image</p>
           <label htmlFor='image'>
-            <img src={image ? URL.createObjectURL(image) : assets.upload_area} alt='' />
+            <img src={formik.values.image ? URL.createObjectURL(formik.values.image) : assets.upload_area} alt='' />
           </label>
-          <input onChange={(e) => setImage(e.target.files[0])} type='file' id='image' hidden required />
+          <input onChange={(e) => formik.setFieldValue("image", e.currentTarget.files[0])} type='file' id='image' hidden />
+          {formik.touched.image && formik.errors.image && (
+            <span className='error-text'>{formik.errors.image}</span>)}
         </div>
         <div className='add-product-name flex-col' >
           <p>Product Name</p>
-          <input onChange={onChangeHandler} value={data.name} type='text' name='name' placeholder='Type here' />
+          <input className={formik.touched.name && formik.errors.name ? 'input-error' : ''} onChange={formik.handleChange} value={formik.values.name} type='text' name='name' placeholder='Type here' />
+          {formik.touched.name && formik.errors.name && (
+            <span className='error-text'>{formik.errors.name}</span>
+          )}
 
         </div>
         <div className='add-product-description flex-col'>
           <p>Product Description</p>
-          <textarea onChange={onChangeHandler} value={data.description} name='description' rows='6' placeholder='Write content here' required></textarea>
+          <textarea className={formik.touched.name && formik.errors.name ? 'input-error' : ''} onChange={formik.handleChange} value={formik.values.description} name='description' rows='6' placeholder='Write content here' ></textarea>
+          {formik.touched.description && formik.errors.description && (
+            <span className='error-text'>{formik.errors.description}</span>
+          )}
         </div>
         <div className='add-category-price'>
           <div className='add-category flex-col'>
             <p>Product Category</p>
-            <select onChange={onChangeHandler} name='category'>
+            <select onChange={formik.handleChange} name='category' value={formik.values.category}>
               <option value="Salad">Salad</option>
               <option value="Rolls">Rolls</option>
               <option value="Desert">Desert</option>
@@ -53,11 +81,17 @@ const Add = () => {
               <option value="Noodles">Noodles</option>
 
             </select>
-
+            {formik.touched.category && formik.errors.category && (
+              <span className='error-text'>{formik.errors.category}</span>
+            )}
           </div>
           <div className='add-price flex-col'>
             <p>Product price</p>
-            <input onChange={onChangeHandler} value={data.price} type='Number' name='price' placeholder='$20' />
+            <input onChange={formik.handleChange} value={formik.values.price} type='Number' name='price' placeholder='$20' />{
+              formik.touched.price && formik.errors.price && (
+                <span className='error-text'>{formik.errors.price}</span>
+              )
+            }
           </div>
 
 

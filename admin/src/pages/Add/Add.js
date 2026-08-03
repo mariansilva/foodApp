@@ -5,6 +5,8 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import { foodSchema } from './FoodSchema'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Add = () => {
@@ -30,6 +32,7 @@ const Add = () => {
         const response = await axios.post(`${url}/api/food/add`, formData);
         if (response.data.success) {
           resetForm();
+          toast.success(response.data.message)
         } else {
           console.error(response.data.message)
         }
@@ -97,6 +100,7 @@ const Add = () => {
 
         </div>
         <button type='submit' className='add-btn'>ADD</button>
+        <ToastContainer />
 
       </form>
 

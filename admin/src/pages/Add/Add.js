@@ -9,8 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Add = () => {
-  const url = "http://localhost:4000";
+const Add = ({url}) => {
 
   const formik = useFormik({
     initialValues: {

@@ -21,6 +21,10 @@ const PlaceOrder = () => {
     const value =event.target.value;
     setData(data=>({...data,[name]:value}))
   }
+
+  useEffect(()=>{
+    console.log(data);
+  },[data])
   
   return (
     <form className='place-order'>

@@ -58,7 +58,7 @@ const placeOrder = async (req, res) => {
 }
 
 
-const verifyOrder = async (ewq,res) =>{
+const verifyOrder = async (req,res) =>{
 const {orderId,success} = req.body;
 try {
     if(success=="true"){

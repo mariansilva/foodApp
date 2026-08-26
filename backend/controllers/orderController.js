@@ -74,5 +74,20 @@ try {
 }
 }
 
+//user orders for frontend
+const userOrders = async (req,res) =>{
+try {
+    const userId = req.body?.userId || req.userId;
+    if(!userId){
+        return res.json({success:true,message:"User ID missing invalid token"});
+    }
+    const orders = await orderModel.find({userId:userId});
+    res.json({success:true, data:orders})
+} catch (error) {
+    console.log(error);
+    res.json({success:false,message:"Error"})
+}
+}
 
-export { placeOrder,verifyOrder }
+
+export { placeOrder,verifyOrder,userOrders}

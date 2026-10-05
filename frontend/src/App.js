@@ -8,6 +8,7 @@ import PlaceOrder from './pages/placeOrder/PlaceOrder'
 import Footer from './components/footer/Footer'
 import LoginPopup from './components/loginPopup/LoginPopup'
 import Verify from './pages/verify/Verify'
+import MyOrders from './pages/myorders/MyOrders'
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<PlaceOrder />} />
           <Route path='/verify' element={<Verify />} />
+          <Route path='/myorders' element={<MyOrders />}/>
         </Routes>
         <title>Food Del</title>
       </div>
